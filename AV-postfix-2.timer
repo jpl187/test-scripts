@@ -1,0 +1,10 @@
+[Unit]
+Description=AV-postfix-2.timer
+
+[Timer]
+OnBootSec=5min
+OnUnitActiveSec=5min
+
+[Install]
+WantedBy=timers.target
+

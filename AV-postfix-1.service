@@ -1,0 +1,8 @@
+[Unit]
+Description=AV-postfix-1.service
+Wants=clamav-postfix.timer
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/VA-test-1.sh
+
