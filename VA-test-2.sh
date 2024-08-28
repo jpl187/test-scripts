@@ -4,7 +4,7 @@ touch /var/log/VA-debug.log
 exec > >(tee -a "$DEBUG") 2>&1
 POSTFIX_DIR_INC="/var/spool/postfix/incoming"
 CACHE="/var/log/Email-scan.log"
-
+echo "----------------------$date-------------------------------"
 if [ ! -f "$CACHE" ]; then
     echo "---" > "$CACHE"
 fi
@@ -34,4 +34,5 @@ find "$POSTFIX_DIR_INC" -type f | while read -r FILE; do
         fi
     fi
 done
-
+echo "-----------------------END-------$date--------------------"
+exit 0 
