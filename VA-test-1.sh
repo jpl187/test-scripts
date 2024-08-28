@@ -1,5 +1,7 @@
 #!/bin/bash
-
+DEBUG=/var/log/VA-debug.log
+touch /var/log/VA-debug.log
+exec > >(tee -a "$DEBUG") 2>&1
 POSTFIX_DIR_INC="/var/spool/postfix/incoming"
 CACHE="/var/log/Email-scan.log"
 if [ ! -f "$LAST_RUN_FILE" ]; then
