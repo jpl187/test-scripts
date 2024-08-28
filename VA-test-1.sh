@@ -5,7 +5,7 @@ exec > >(tee -a "$DEBUG") 2>&1
 POSTFIX_DIR_INC="/var/spool/postfix/incoming"
 CACHE="/var/log/Email-scan.log"
 echo "--------------$date----------------------"
-if [ ! -f "$LAST_RUN_FILE" ]; then
+if [ ! -f "$CACHE" ]; then
     date '+%Y-%m-%d %H:%M:%S' > "$CACHE"
 fi
 NEW_FILES=$(find "$POSTFIX_DIR_INC" -type f -newermt "$(cat $CACHE)")
