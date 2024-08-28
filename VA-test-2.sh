@@ -3,7 +3,7 @@ DEBUG=/var/log/VA-debug.log
 touch /var/log/VA-debug.log
 exec > >(tee -a "$DEBUG") 2>&1
 POSTFIX_DIR_INC="/var/spool/postfix/incoming"
-CACHE="/var/log/Email-scan.log"
+CACHE="/var/log/Email-scan-log.yaml"
 echo "----------------------$date-------------------------------"
 if [ ! -f "$CACHE" ]; then
     echo "---" > "$CACHE"
