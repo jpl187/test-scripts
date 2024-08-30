@@ -4,5 +4,5 @@ Wants=clamav-postfix.timer
 
 [Service]
 Type=oneshot
-ExecStart=/usr/local/bin/VA-test2.sh
+ExecStart=/usr/local/bin/VA-test-2.sh
 
