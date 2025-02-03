@@ -1,0 +1,12 @@
+[Unit]
+Description=Run bdavclient-cli scan if CPU usage is below 20% for 2 hours
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/bdav_scan.pl
+Restart=on-failure
+User=root
+
+[Install]
+WantedBy=multi-user.target
