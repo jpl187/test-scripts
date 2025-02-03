@@ -1,0 +1,60 @@
+import os
+import time
+import psutil
+from datetime import datetime, timedelta
+
+# Configuration
+CPU_THRESHOLD = 20  # Percentage of CPU usage considered "low"
+DURATION = 2 * 60 * 60  # 2 hours in seconds
+SCAN_COMMAND = "bdavclient-cli --scan=/"  # Updated command
+LAST_RUN_FILE = "/var/log/bdavclient_last_run.log"  # Updated log file
+
+def get_last_run_time():
+    print("Checking last run time...")
+    if os.path.exists(LAST_RUN_FILE):
+        with open(LAST_RUN_FILE, "r") as f:
+            last_run_str = f.read().strip()
+            print(f"Last run time: {last_run_str}")
+            return datetime.fromisoformat(last_run_str)
+    print("No last run time found.")
+    return None
+
+def update_last_run_time():
+    print("Updating last run time...")
+    now = datetime.now()
+    timestamp = now.strftime("%Y-%m-%d %H:%M:%S")  # Human-readable format
+    with open(LAST_RUN_FILE, "w") as f:
+        f.write(f"last run at {timestamp}\n")
+    print(f"Updated last run time to: {timestamp}")
+
+def is_cpu_low():
+    print("Checking CPU usage...")
+    cpu_usage = psutil.cpu_percent(interval=60)
+    print(f"Current CPU usage: {cpu_usage}%")
+    return cpu_usage < CPU_THRESHOLD
+
+def main():
+    print("Starting main function...")
+    last_run = get_last_run_time()
+    if last_run and (datetime.now() - last_run) < timedelta(days=1):
+        print("bdavclient-cli already ran today. Skipping.")
+        return
+
+    print("Monitoring CPU usage...")
+    low_cpu_duration = 0
+    while low_cpu_duration < DURATION:
+        if is_cpu_low():
+            low_cpu_duration += 60
+            print(f"Low CPU duration: {low_cpu_duration} seconds")
+        else:
+            low_cpu_duration = 0
+            print("CPU usage too high. Resetting timer.")
+        time.sleep(60)
+
+    print("Running bdavclient-cli...")
+    os.system(SCAN_COMMAND)
+    update_last_run_time()
+
+if __name__ == "__main__":
+    print("Starting script...")
+    main()
